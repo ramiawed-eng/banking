@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import { signupSchema } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +9,16 @@ import CustomInput from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
+import { signUp } from "@/lib/actions/user.actions";
 
-export default function SignUpForm() {
+export default function SignUpForm({
+  user,
+  setUser,
+}: {
+  user: null | User;
+  setUser: Dispatch<SetStateAction<null>>;
+}) {
+  // const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof signupSchema>>({
@@ -19,9 +27,10 @@ export default function SignUpForm() {
       firstName: "",
       lastName: "",
       address1: "",
+      city: "",
       state: "",
       postalCode: "",
-      dateOfBirth: new Date(Date.now()),
+      dateOfBirth: "",
       ssn: "",
       email: "",
       password: "",
@@ -29,12 +38,17 @@ export default function SignUpForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signupSchema>) {
+  async function onSubmit(values: z.infer<typeof signupSchema>) {
     setIsLoading(true);
-    setTimeout(() => {
-      console.log(values);
+    try {
+      // Sign up
+      const newUser = await signUp(values);
+      setUser(newUser);
+    } catch (err) {
+      console.log(err);
+    } finally {
       setIsLoading(false);
-    }, 3000);
+    }
   }
   return (
     <>
@@ -59,6 +73,12 @@ export default function SignUpForm() {
             name="address1"
             control={form.control}
             placeholder="Enter your address"
+          />
+          <CustomInput
+            label="City"
+            name="city"
+            control={form.control}
+            placeholder="Enter your city"
           />
           <div className="flex gap-4">
             <CustomInput

@@ -36,7 +36,11 @@ export default function AuthForm({ type }: { type: string }) {
         <div className="flex flex-col gap-4">{/* PlaidLink */}</div>
       ) : (
         <>
-          {type === "sign-in" ? <SignInForm /> : <SignUpForm />}
+          {type === "sign-in" ? (
+            <SignInForm />
+          ) : (
+            <SignUpForm user={user} setUser={setUser} />
+          )}
 
           <footer className="flex justify-center gap-1">
             <p className="text-14 font-normal text-gray-600">

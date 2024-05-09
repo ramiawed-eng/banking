@@ -207,9 +207,10 @@ export const signupSchema = z.object({
   firstName: z.string().min(3, 'Please enter at least 3 characters'),
   lastName: z.string().min(3, 'Please enter at least 3 characters'),
   address1: z.string().max(50, 'Too long address, please enter at max 50 characters'),
+  city: z.string().max(50, 'Too long address, please enter at max 50 characters'),
   state: z.string().min(2).max(2),
   postalCode: z.string().min(3).max(6),
-  dateOfBirth: z.date(),
+  dateOfBirth: z.string(),
   ssn: z.string().min(3),
   email: z.string().email("Please enter a valid email"),
   password: z

@@ -9,10 +9,12 @@ import CustomInput from "@/components/CustomInput";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
+import { signIn } from "@/lib/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -22,12 +24,21 @@ export default function SignInForm() {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signinSchema>) {
+  async function onSubmit(values: z.infer<typeof signinSchema>) {
     setIsLoading(true);
-    setTimeout(() => {
-      console.log(values);
+    try {
+      // Sign up with
+      const response = await signIn({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (response) router.push("/");
+    } catch (err) {
+      console.log(err);
+    } finally {
       setIsLoading(false);
-    }, 3000);
+    }
   }
   return (
     <>

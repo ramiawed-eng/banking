@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import BankCard from "./BankCard";
+import BankCard from "@/components/BankCard";
+import Footer from "@/components/Footer";
 
 export default function RightSidebar({
   user,
@@ -14,14 +15,12 @@ export default function RightSidebar({
         <div className="profile">
           <div className="profile-img">
             <span className="text-5xl font-bold text-blue-500">
-              {user.firstName[0]}
+              {user?.name[0]}
             </span>
           </div>
           <div className="profile-details">
-            <h1 className="profile-name">
-              {user.firstName} {user.lastName}
-            </h1>
-            <p className="profile-email">{user.email}</p>
+            <h1 className="profile-name">{user?.name}</h1>
+            <p className="profile-email">{user?.email}</p>
           </div>
         </div>
       </section>
@@ -39,7 +38,7 @@ export default function RightSidebar({
               <BankCard
                 key={banks[0].$id}
                 account={banks[0]}
-                userName={`${user.firstName} ${user.lastName}`}
+                userName={`${user?.name}`}
                 showBalance={false}
               />
             </div>
@@ -48,7 +47,7 @@ export default function RightSidebar({
                 <BankCard
                   key={banks[1].$id}
                   account={banks[1]}
-                  userName={`${user.firstName} ${user.lastName}`}
+                  userName={`${user?.name}`}
                   showBalance={false}
                 />
               </div>
