@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 // schemas
-import SignInForm from "./SignInForm";
-import SignUpForm from "./SignUpForm";
+import SignInForm from "@/components/SignInForm";
+import SignUpForm from "@/components/SignUpForm";
+import PlaidLink from "@/components/PlaidLink";
 
 export default function AuthForm({ type }: { type: string }) {
   const [user, setUser] = useState(null);
@@ -33,7 +34,9 @@ export default function AuthForm({ type }: { type: string }) {
         </div>
       </header>
       {user ? (
-        <div className="flex flex-col gap-4">{/* PlaidLink */}</div>
+        <div className="flex flex-col gap-4">
+          <PlaidLink user={user} variant="primary" />
+        </div>
       ) : (
         <>
           {type === "sign-in" ? (
